@@ -22,9 +22,29 @@ class SignupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        #if DEBUG
+//        if CommandLine.arguments.contains("-skipSurvey") {
+//            print("Skipping survey page")
+//        }
+//        #endif
+//        
+//        
+//        //More Deeper or professional
+//        #if DEBUG
+//        if ProcessInfo.processInfo.arguments.contains("-skipSurvey") {
+//            print("Skipping survey page")
+//        }
+//        #endif
+        
+        
         if signupPresenter == nil {
             let signupModelValidator = SignupFormModelValidator()
-            let signupWebService = SignupWebService(urlString: SignupConstants.signupURLString)
+            
+            let signupUrl = ProcessInfo.processInfo.environment["signupUrl"] ?? SignupConstants.signupURLString
+            
+            let signupWebService = SignupWebService(urlString: signupUrl)
+            
+//            let signupWebService = SignupWebService(urlString: SignupConstants.signupURLString)
             
             signupPresenter = SignupPresenter(formModelValidator: signupModelValidator, webservice: signupWebService, delegate: self)
         }

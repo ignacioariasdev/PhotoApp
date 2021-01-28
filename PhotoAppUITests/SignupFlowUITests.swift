@@ -7,6 +7,28 @@
 
 import XCTest
 
+// UI tests must launch the application that they test.
+
+/*
+1. Index on the UI (normal)
+2. by Placeholders
+3. by accesibility identifiers (refactored to setup())
+*/
+
+
+//Validating that the UI elements are enabled for user interactions
+
+//2.
+//        let firstName = app.textFields["First name: "]
+//        let lastName = app.textFields["Last name: "]
+//        let email = app.textFields["Email: "]
+//        let password = app.secureTextFields["Password:"]
+//        let securePassword = app.secureTextFields["Repeat password:"]
+//        let signupButton = app.staticTexts["Sign up"]
+
+  
+//po app will show identifier
+
 class SignupFlowUITests: XCTestCase {
     
     private var app: XCUIApplication!
@@ -22,6 +44,10 @@ class SignupFlowUITests: XCTestCase {
         try super.setUpWithError()
         
         app = XCUIApplication()
+        app.launchArguments = ["-skipSurvey", "-debugServer"] // Launch arguments, server stuff, command line
+        app.launchEnvironment = ["signupUrl":       "http://appsdeveloperblog.com/api/v2/signup-mock-service/users",
+                                 "inAppPurchasesEnabled":"true",
+                                 "inAppAdsEnabled":"true"] // Test server
         app.launch()
         
         //3.
@@ -52,26 +78,7 @@ class SignupFlowUITests: XCTestCase {
     }
 
     func testSignupViewController_WhenViewLoaded_RequiredUIElementsAreEnabled() throws {
-        // UI tests must launch the application that they test.
-        
-        /*
-        1. Index on the UI (normal)
-        2. by Placeholders
-        3. by accesibility identifiers (refactored to setup())
-        */
-        
-        
-        //Validating that the UI elements are enabled for user interactions
-        
-        //2.
-//        let firstName = app.textFields["First name: "]
-//        let lastName = app.textFields["Last name: "]
-//        let email = app.textFields["Email: "]
-//        let password = app.secureTextFields["Password:"]
-//        let securePassword = app.secureTextFields["Repeat password:"]
-//        let signupButton = app/*@START_MENU_TOKEN@*/.staticTexts["Sign up"]/*[[".buttons[\"Sign up\"].staticTexts[\"Sign up\"]",".staticTexts[\"Sign up\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-          
-        //po app will show identifier
+      
         XCTAssertTrue(firstName.isEnabled, "First name UITextField is not enabled for user interactions")
         XCTAssertTrue(lastName.isEnabled, "Last name UITextField is not enabled for user interactions")
         XCTAssertTrue(email.isEnabled, "Email UITextField is not enabled for user interactions")
@@ -130,7 +137,7 @@ class SignupFlowUITests: XCTestCase {
         XCTAssertTrue(app.alerts["successAlertDialog"].waitForExistence(timeout: 1.5), "A success alert dialog was not presented when a valid signup form was submitted")
     }
     
-    func testViewController_WhenValidFormSubmitted_PresentsSuccessAlertDialog_v2() {
+    func testViewController_WhenValidFormSubmitted_PresentsSuccessAlertDialog_v2_WithProgrammaticScreenshots() {
         //Arrange
         firstName.tap()
         firstName.typeText("Ignacio")
