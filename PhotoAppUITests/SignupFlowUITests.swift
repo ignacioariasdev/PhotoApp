@@ -129,6 +129,55 @@ class SignupFlowUITests: XCTestCase {
         //Watch out the timeout, it could be longer if the connection is not fast a the time.
         XCTAssertTrue(app.alerts["successAlertDialog"].waitForExistence(timeout: 1.5), "A success alert dialog was not presented when a valid signup form was submitted")
     }
+    
+    func testViewController_WhenValidFormSubmitted_PresentsSuccessAlertDialog_v2() {
+        //Arrange
+        firstName.tap()
+        firstName.typeText("Ignacio")
+        
+        lastName.tap()
+        lastName.typeText("Arias")
+        
+        email.tap()
+        email.typeText("test@test.com")
+        
+        password.tap()
+        password.typeText("123456789")
+        
+        securePassword.tap()
+        securePassword.typeText("123456789")
+        
+        //Act
+        signupButton.tap()
+        
+        // MARK: - Screenshots programmatically of the UITextField
+        let emailTextFieldScreenshot = email.screenshot()
+        let emailTextFieldAttachment = XCTAttachment(screenshot: emailTextFieldScreenshot)
+        emailTextFieldAttachment.name = "Screenshot of Email UITextField"
+        emailTextFieldAttachment.lifetime = .keepAlways
+        add(emailTextFieldAttachment)
+        
+        
+        // MARK: - Screenshot programmatically of the app window
+        
+        //let currentAppWindow = app.screenshot()
+        
+        //Also ~ same 
+        let currentAppWindow = XCUIScreen.main.screenshot()
+        
+        
+        let currentAppWindowAttachment = XCTAttachment(screenshot: currentAppWindow)
+        currentAppWindowAttachment.name = "Signup page screenshot"
+        currentAppWindowAttachment.lifetime = .keepAlways
+        add(currentAppWindowAttachment)
+        
+        
+        
+        //Assert
+        
+        //Watch out the timeout, it could be longer if the connection is not fast a the time.
+        XCTAssertTrue(app.alerts["successAlertDialog"].waitForExistence(timeout: 1.5), "A success alert dialog was not presented when a valid signup form was submitted")
+    }
 
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
